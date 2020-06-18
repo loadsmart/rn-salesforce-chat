@@ -1,0 +1,21 @@
+framework module ServiceCore {
+    umbrella header "ServiceCore.h"
+
+    export *
+    module * { export * }
+
+    framework module ServiceCommon {
+        umbrella header "ServiceCommon.h"
+
+        export *
+        module * { export * }
+    }
+
+    link framework "UIKit"
+    link framework "SystemConfiguration"
+    link framework "CoreGraphics"
+
+    link "System"
+    link "sqlite3"
+    link "z"
+}

@@ -1,0 +1,111 @@
+#!/usr/bin/perl
+use strict;
+use Getopt::Std;
+use File::Basename qw( dirname basename );
+use File::Path qw( remove_tree );
+use File::Glob qw( bsd_glob );
+use XML::XPath;
+
+our $opt_v = $ENV{VALID_ARCHS};
+our $opt_p = "$ENV{BUILT_PRODUCTS_DIR}/$ENV{FRAMEWORKS_FOLDER_PATH}";
+our $opt_i = $ENV{EXPANDED_CODE_SIGN_IDENTITY};
+our $opt_c = ($ENV{CODE_SIGNING_REQUIRED} eq "YES");
+our $opt_d = $ENV{DWARF_DSYM_FOLDER_PATH};
+our $opt_h = 0;
+getopts('v:p:i:d:ch');
+
+if ($opt_h) {
+    usage();
+    exit;
+}
+
+my $script_name = basename($0);
+my %valid = map {$_ => 1} split(/\s+/, $opt_v);
+foreach my $framework (bsd_glob("$opt_p/*.framework")) {
+    my ($name) = basename($framework, '.framework');
+    my $path = "$framework/$name";
+    if (-f $path) {
+        my @remove = grep { not $valid{$_} } architectures($path);
+        unless ($#remove < 0) {
+            my $remove_args = join(" ", map { "-remove $_" } @remove);
+            warn join(":", __FILE__, __LINE__, " note") . ": trimming " . join(", ", @remove) . " from $path\n";
+            `/usr/bin/lipo "$path" $remove_args -output "$path"`
+                and warn join(":", __FILE__, __LINE__, " warning") . ": Couldn't trim architectures from $path: $!\n";
+        }
+
+        if (-e "$framework/$script_name") {
+            unlink("$framework/$script_name");
+        }
+
+        if (-d "$framework/Frameworks") {
+            foreach my $subframework (bsd_glob("$framework/Frameworks/*.framework")) {
+                my $bundleId = bundleIdentifier($subframework);
+                if (!$bundleId || $bundleId =~ /^com\.salesforce/i) {
+                    remove_tree($subframework);
+                }
+            }
+            my @subframeworkCount = bsd_glob("$framework/Frameworks/*.framework");
+            if ($#subframeworkCount < 0) {
+                remove_tree("$framework/Frameworks");
+            }
+        }
+
+        if ($opt_c) {
+            if (length $opt_i == 0) {
+                warn join(":", __FILE__, __LINE__, " warning") . ": Code signing required but no identity information was supplied\n";
+            }
+
+            `/usr/bin/codesign --force --sign "$opt_i" --preserve-metadata=identifier,entitlements "$path"`
+                and warn join(":", __FILE__, __LINE__, " warning") . ": error code signing $path with identity \"$opt_i\": $!\n";
+        }
+    }
+}
+
+if (-d $opt_d and $ENV{SCRIPT_INPUT_FILE_COUNT} > 0) {
+    foreach my $idx (0 .. $ENV{SCRIPT_INPUT_FILE_COUNT} - 1) {
+        my $key = "SCRIPT_INPUT_FILE_$idx";
+        my $file = $ENV{$key};
+        if (defined $file and -d $file and $file =~ /\.dSYM$/) {
+            print "Copying " . basename($file) . "\n";
+            `cp -r "$file" "$opt_d"`;
+        }
+    }
+}
+
+sub bundleIdentifier {
+    my ($framework) = @_;
+    my $bundleId = undef;
+    if ($framework and -f "$framework/Info.plist") {
+        my $xml = `plutil -extract CFBundleIdentifier xml1 -o - "$framework/Info.plist"`;
+        my $xpath = XML::XPath->new(xml => $xml);
+        if ($xpath) {
+            $bundleId = $xpath->getNodeText('//string');
+        }
+    }
+    return $bundleId;
+}
+
+sub architectures {
+    my ($path) = @_;
+    my @archs = grep { $_ =~ /^architecture / } `/usr/bin/lipo -detailed_info "$path"`;
+    return map { (split /\s+/)[1] } @archs;
+}
+
+sub usage {
+    print STDERR <<EOF;
+Script to prepare embedded frameworks for release, including the removal of files intended only for development.
+Use this within a build phase of your application target, after the "Embedded Binaries" phase, like so:
+
+    \$SRCROOT/ServiceCore.framework/prepare-framework
+
+usage: $0 -o <output file> -i <input file>
+options:
+    -v <valid_archs>      Valid architectures (default: "$ENV{VALID_ARCHS}")
+    -p <frameworks_path>  Frameworks path (default: "$ENV{BUILT_PRODUCTS_DIR}/$ENV{FRAMEWORKS_FOLDER_PATH}")
+    -d <dsym_path>        DSYM folder path (default: "$ENV{DWARF_DSYM_FOLDER_PATH}")
+    -i <identity>         Codesign identify (default: "$ENV{EXPANDED_CODE_SIGN_IDENTITY}")
+    -c                    Code signing required (default: "$ENV{CODE_SIGNING_REQUIRED}")
+    -h                    This help.
+EOF
+    exit 1;
+}

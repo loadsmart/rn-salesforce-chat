@@ -1,0 +1,29 @@
+framework module ServiceChat {
+    umbrella header "ServiceChat.h"
+
+    export *
+    module * { export * }
+
+    framework module ChatCore {
+        umbrella header "ChatCore.h"
+        export *
+        module * { export * }
+    }
+
+    framework module ChatUI {
+        umbrella header "ChatUI.h"
+        export *
+        module * { export * }
+    }
+
+    link framework "UIKit"
+    link framework "SystemConfiguration"
+    link framework "CoreGraphics"
+
+    link "System"
+    link "sqlite3"
+    link "z"
+
+    use SalesforceSDKCore
+    use ServiceCore
+}
