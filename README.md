@@ -3,13 +3,13 @@
 
 ## Getting started
 
-`$ npm install rn-salesforce-chat --save` or `$ yarn add rn-salesforce-chat` if yarn is used.
+`$ npm install @loadsmart/rn-salesforce-chat --save` or `$ yarn add @loadsmart/rn-salesforce-chat` if yarn is used.
 
 ### Mostly automatic installation
 
 On your project root run:
 
-`$ react-native link rn-salesforce-chat`
+`$ react-native link @loadsmart/rn-salesforce-chat`
 
 Add the following maven repository to your project's `build.gradle` file:
 
