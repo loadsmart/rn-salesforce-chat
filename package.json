@@ -1,6 +1,6 @@
 {
   "name": "@loadsmart/rn-salesforce-chat",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "React Native wrapper for Salesforce SDK chat",
   "main": "index.js",
   "keywords": [
