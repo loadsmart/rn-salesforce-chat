@@ -1,10 +1,12 @@
 {
-  "name": "rn-salesforce-chat",
+  "name": "@loadsmart/rn-salesforce-chat",
   "version": "1.0.0",
   "description": "React Native wrapper for Salesforce SDK chat",
   "main": "index.js",
   "keywords": [
-    "react-native"
+    "react-native",
+    "salesforce",
+    "chat"
   ],
   "author": "Lenoir Zamboni",
   "license": "MIT",
@@ -15,5 +17,13 @@
     "react-native": "0.41.2"
   },
   "nativePackage": true,
-  "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme"
+  "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadsmart/rn-salesforce-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/loadsmart/rn-salesforce-chat/issues"
+  }
 }
