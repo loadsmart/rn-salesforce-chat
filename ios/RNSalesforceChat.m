@@ -32,6 +32,8 @@ RCT_EXPORT_MODULE()
     entities = [[NSMutableArray alloc] init];
 }
 
+#pragma mark - RCTBridgeModule
+
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
@@ -73,6 +75,8 @@ RCT_EXPORT_METHOD(createEntityField:(NSString *)objectFieldName doCreate:(BOOL)d
         entityField.doFind = doFind;
         entityField.doCreate = doCreate;
         entityField.isExactMatch = isExactMatch;
+
+        prechatEntities[objectFieldName] = entityField;
     }
 }
 
@@ -120,6 +124,8 @@ RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)errorCallback)
 {
   return @[ChatSessionEnd, ChatSessionStateChanged];
 }
+
+#pragma mark - SCSChatSessionDelegate
 
 - (void)session:(id<SCSChatSession>)session didTransitionFromState:(SCSChatSessionState)previous toState:(SCSChatSessionState)current {
 
