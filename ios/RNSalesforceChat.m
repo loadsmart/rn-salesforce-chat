@@ -75,6 +75,8 @@ RCT_EXPORT_METHOD(createEntityField:(NSString *)objectFieldName doCreate:(BOOL)d
         entityField.doFind = doFind;
         entityField.doCreate = doCreate;
         entityField.isExactMatch = isExactMatch;
+
+        prechatEntities[objectFieldName] = entityField;
     }
 }
 
