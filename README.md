@@ -34,9 +34,9 @@ That's it!
 
 #### iOS
 
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+1. On Xcode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `rn-salesforce-chat` and add `RNSalesforceChat.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNSalesforceChat.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+3. Again in the project navigator, select your project. Add `libRNSalesforceChat.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
 4. Run your project (`Cmd+R`)<
 
 #### Android
@@ -63,7 +63,7 @@ That's it!
     compile project(':rn-salesforce-chat')
   	```
 
-4. Open up `android/app/src/main/java/[...]/MainActivity.java`
+4. Open `android/app/src/main/java/[...]/MainActivity.java`
   - Add `import com.rn.salesforce.chat.RNSalesforceChatPackage;` to the imports at the top of the file
   - Add `new RNSalesforceChatPackage()` to the list returned by the `getPackages()` method    
 
