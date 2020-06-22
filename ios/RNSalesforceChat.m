@@ -32,6 +32,8 @@ RCT_EXPORT_MODULE()
     entities = [[NSMutableArray alloc] init];
 }
 
+#pragma mark - RCTBridgeModule
+
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
@@ -120,6 +122,8 @@ RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)errorCallback)
 {
   return @[ChatSessionEnd, ChatSessionStateChanged];
 }
+
+#pragma mark - SCSChatSessionDelegate
 
 - (void)session:(id<SCSChatSession>)session didTransitionFromState:(SCSChatSessionState)previous toState:(SCSChatSessionState)current {
 
