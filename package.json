@@ -2,7 +2,14 @@
   "name": "@loadsmart/rn-salesforce-chat",
   "version": "1.0.3",
   "description": "React Native wrapper for Salesforce SDK chat",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "react-native",
     "salesforce",
