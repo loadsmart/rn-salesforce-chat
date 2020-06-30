@@ -11,10 +11,10 @@
   "author": "Lenoir Zamboni",
   "license": "MIT",
   "devDependencies": {
-    "react-native": "0.41.2"
+    "react-native": "0.61.2"
   },
   "peerDependencies": {
-    "react-native": "0.41.2"
+    "react-native": "0.61.2"
   },
   "nativePackage": true,
   "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme",
