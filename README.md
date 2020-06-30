@@ -29,6 +29,9 @@ Open your ios folder and run:
 
 That's it!
 
+
+**Note**: This library does not gives support for **Expo SDK** projects yet.
+
 ### Manual installation
 
 
