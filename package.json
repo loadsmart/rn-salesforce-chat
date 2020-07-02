@@ -18,14 +18,30 @@
   "author": "Lenoir Zamboni",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^26.1.0",
     "react-native": "0.61.2"
   },
   "peerDependencies": {
     "react-native": "0.61.2"
   },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "jest": {
+    "automock": false,
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    }
+  },
   "nativePackage": true,
   "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/loadsmart/rn-salesforce-chat.git"
