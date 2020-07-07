@@ -29,6 +29,9 @@ Open your ios folder and run:
 
 That's it!
 
+
+**Note**: This library does not support **Expo**.
+
 ### Manual installation
 
 
@@ -70,50 +73,73 @@ That's it!
 
 ## Usage example
 ```javascript
-import { NativeModules } from "react-native";
+import { SalesforceChatAPI } from '@loadsmart/rn-salesforce-chat'
 
 export default async function startSalesforceChat() {
 
-  const salesforceChat = NativeModules.RNSalesforceChat
+  const salesforceApi = new SalesforceChatAPI()
 
   const firstName = 'First Name'
   const lastName = 'Last Name'
 		
-  // creating pre chat data objects:
-  // params: string agentLabel, string value, bool isDisplayedToAgent
-  const createPreChatData = async () => {
-    salesforceChat.createPreChatData(firstName, "Some First Name", true)
-    salesforceChat.createPreChatData(lastName, "Some Last Name", true)
-  }
-  
+  // creating user data objects:
+  const createUserData = async () => {
+    salesforceApi.createUserData({
+      agentLabel: firstName,
+      value: "Some First Name",
+      isDisplayedToAgent: true,
+    })
 
-  // creating an entity field object:
-  // params: string objectFieldName, bool doCreate, bool doFind, bool isExactMatch, string keyChatUserDataToMap
+    salesforceApi.createUserData({
+      agentLabel: lastName,
+      value: "Some Last Name",
+      isDisplayedToAgent: true,
+    })
+  }
+
+  // creating entity field objects:
   const createEntityFields = async () => {
-    salesforceChat.createEntityField(firstName, false, true, false, firstName)
-    salesforceChat.createEntityField(lastName, false, true, false, lastName)
+    salesforceApi.createEntityField({
+      objectFieldName: firstName,
+      doCreate: false,
+      doFind: true,
+      isExactMatch: false,
+      keyChatUserDataToMap: firstName,
+    })
+    salesforceApi.createEntityField({
+      objectFieldName: lastName,
+      doCreate: false,
+      doFind: true,
+      isExactMatch: false,
+      keyChatUserDataToMap: lastName,
+    })
   }
 
   // creating an entity object:
-  // string objectFieldName, bool doCreate, bool doFind, bool isExactMatch, string[] keysEntityFieldToMap
   const createEntities = async () => {
-    salesforceChat.createEntity('Contact', 'ContactId', true, [firstName, lastName])
+    salesforceApi.createEntity({
+      objectType: 'Contact',
+      linkToTranscriptField: 'ContactId',
+      showOnCreate: true,
+      keysEntityFieldToMap: [firstName, lastName],
+    })
   }
 
   // configure chat
   const configureChat = async () => {
-    salesforceChat.configureChat(
-      "ORG_ID",
-      "BUTTON_ID",
-      "DEPLOYMENT_ID",
-      "LIVE_AGENT_POD"
-    )
+    salesforceApi.configureChat({
+      orgId: "ORG_ID",
+      buttonId: "BUTTON_ID",
+      deploymentId: "DEPLOYMENT_ID",
+      liveAgentPod: "LIVE_AGENT_POD",
+    })
   }
 
   // start chat
   const startChat = async () => {
-    salesforceChat.openChat((event: any) => {
-      console.debug('event', event)
+    salesforceApi.openChat((errorMessage: string) => {
+      // error handling
+      console.debug('got error', errorMessage)
     })
   }
  
@@ -143,7 +169,7 @@ Events for `ChatSessionEnd`
 - **EndReasonAgent** - Session was ended remotely by the agent.
 - **EndReasonNoAgentsAvailable** - Session was ended as a result of no agents being available.
 - **EndReasonTimeout** - Session was ended due to a network disruption resulting in a timeout.
-- **EndReasonSessionError**** - Session was ended as the result of a fatal error.
+- **EndReasonSessionError** - Session was ended as the result of a fatal error.
 
 
 Usage example:
