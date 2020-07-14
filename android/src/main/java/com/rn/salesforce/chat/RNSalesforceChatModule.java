@@ -134,8 +134,10 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 	}
 
 	@ReactMethod
-	public void configureChat(String orgId, String buttonId, String deploymentId, String liveAgentPod) {
+	public void configureChat(String orgId, String buttonId, String deploymentId, String liveAgentPod, @Nullable String visitorName) {
 		ChatConfiguration.Builder chatConfigurationBuilder = new ChatConfiguration.Builder(orgId, buttonId, deploymentId, liveAgentPod);
+
+		if (visitorName != null) chatConfigurationBuilder.visitorName(visitorName);
 
 		ChatConfiguration chatConfiguration = chatConfigurationBuilder
 				.chatUserData(new ArrayList<>(chatUserDataMap.values()))
