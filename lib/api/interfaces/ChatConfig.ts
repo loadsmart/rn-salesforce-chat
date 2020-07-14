@@ -3,4 +3,5 @@ export interface ChatConfig {
   buttonId: string;
   deploymentId: string;
   liveAgentPod: string;
+  visitorName: string | undefined;
 }

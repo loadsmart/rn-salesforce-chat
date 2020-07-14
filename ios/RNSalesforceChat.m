@@ -100,10 +100,12 @@ RCT_EXPORT_METHOD(createEntity:(NSString *)objectType linkToTranscriptField:(NSS
 }
 
 RCT_EXPORT_METHOD(configureChat:(NSString *)orgId buttonId:(NSString *)buttonId deploymentId:(NSString *)deploymentId
-                  liveAgentPod:(NSString *)liveAgentPod)
+                  liveAgentPod:(NSString *)liveAgentPod visitorName:(NSString *)visitorName)
 {
     chatConfiguration = [[SCSChatConfiguration alloc] initWithLiveAgentPod:liveAgentPod orgId:orgId
                                                               deploymentId:deploymentId buttonId:buttonId];
+
+    if (visitorName != nil) chatConfiguration.visitorName = visitorName;
     chatConfiguration.prechatFields = [prechatFields allValues];
     chatConfiguration.prechatEntities = entities;
 }
