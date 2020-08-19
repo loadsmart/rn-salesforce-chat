@@ -1,5 +1,8 @@
 version: 2
 
+tag-pattern: &tag-pattern
+  only: /^v\d+\.\d+\.\d+$/
+
 jobs:
   test:
     working_directory: ~/rn-salesforce-chat
@@ -30,8 +33,41 @@ jobs:
           name: jest tests
           command: yarn test --maxWorkers=2
 
+  publish:
+    working_directory: ~/rn-salesforce-chat
+    docker:
+      - image: circleci/node:11.10.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Authenticate npm with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+
+      - run:
+          name: Install project level dependencies
+          command: yarn install
+
+      - run:
+          name: Set project version from latest git tag
+          command: npm version from-git -m "lib bump version"
+
+      - run:
+          name: Publish to npm
+          command: npm publish --access public
+
 workflows:
   version: 2
   general:
     jobs:
       - test
+      - publish:
+          context: org-global
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              <<: *tag-pattern
