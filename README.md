@@ -132,6 +132,7 @@ export default async function startSalesforceChat() {
       buttonId: "BUTTON_ID",
       deploymentId: "DEPLOYMENT_ID",
       liveAgentPod: "LIVE_AGENT_POD",
+      visitorName: "Some Visitor Name"
     })
   }
 
