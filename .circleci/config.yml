@@ -1,0 +1,37 @@
+version: 2
+
+jobs:
+  test:
+    working_directory: ~/rn-salesforce-chat
+    docker:
+      - image: circleci/node:11.10.1
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+
+      - restore_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: yarn install
+
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - ~/.cache/yarn
+
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+
+      - run:
+          name: jest tests
+          command: yarn test --maxWorkers=2
+
+workflows:
+  version: 2
+  general:
+    jobs:
+      - test
