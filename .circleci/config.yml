@@ -43,15 +43,11 @@ jobs:
 
       - run:
           name: Authenticate npm with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > /home/circleci/rn-salesforce-chat/.npmrc
 
       - run:
           name: Install project level dependencies
           command: yarn install
-
-      - run:
-          name: Set project version from latest git tag
-          command: npm version from-git -m "lib bump version"
 
       - run:
           name: Publish to npm
