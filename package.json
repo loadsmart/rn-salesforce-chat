@@ -8,7 +8,10 @@
     "lib": "lib"
   },
   "files": [
-    "lib"
+    "lib",
+    "ios",
+    "android",
+    "rn-salesforce-chat.podspec"
   ],
   "keywords": [
     "react-native",
