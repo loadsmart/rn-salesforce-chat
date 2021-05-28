@@ -2,8 +2,6 @@
 name: Bug/Issue report
 about: Create a report to help us improve
 title: "[\U0001F41B] Bug/Issue Report Title - CHANGE ME"
-labels: ''
-assignees: ''
 
 ---
 
