@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0851B2BFEAAEFFE37807C8DB /* libPods-RNSalesforceChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D8417DE3E7A07243C326B58 /* libPods-RNSalesforceChat.a */; };
-		4E18CAA324BE02030081F9AA /* ServiceChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ECA21992497BC0E007CEB03 /* ServiceChat.framework */; };
-		4E18CAA424BE02030081F9AA /* ServiceCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ECA219A2497BC0E007CEB03 /* ServiceCore.framework */; };
+		313A2A310F3F793724186149 /* libPods-RNSalesforceChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34F14506D762A2B3A30BD806 /* libPods-RNSalesforceChat.a */; };
 		B3E7B58A1CC2AC0600A0062D /* RNSalesforceChat.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNSalesforceChat.m */; };
 /* End PBXBuildFile section */
 
@@ -27,13 +25,13 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNSalesforceChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNSalesforceChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1AE7ADAB46B1A07BDF100E9A /* Pods-RNSalesforceChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNSalesforceChat.release.xcconfig"; path = "Target Support Files/Pods-RNSalesforceChat/Pods-RNSalesforceChat.release.xcconfig"; sourceTree = "<group>"; };
-		2D8417DE3E7A07243C326B58 /* libPods-RNSalesforceChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNSalesforceChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		34F14506D762A2B3A30BD806 /* libPods-RNSalesforceChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNSalesforceChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ECA21992497BC0E007CEB03 /* ServiceChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceChat.framework; path = Frameworks/ServiceChat.framework; sourceTree = "<group>"; };
 		4ECA219A2497BC0E007CEB03 /* ServiceCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceCore.framework; path = Frameworks/ServiceCore.framework; sourceTree = "<group>"; };
+		6D431C3E1101B0DD64099815 /* Pods-RNSalesforceChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNSalesforceChat.debug.xcconfig"; path = "Target Support Files/Pods-RNSalesforceChat/Pods-RNSalesforceChat.debug.xcconfig"; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNSalesforceChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSalesforceChat.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNSalesforceChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSalesforceChat.m; sourceTree = "<group>"; };
-		F55E609DAA2273211C19EFC6 /* Pods-RNSalesforceChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNSalesforceChat.debug.xcconfig"; path = "Target Support Files/Pods-RNSalesforceChat/Pods-RNSalesforceChat.debug.xcconfig"; sourceTree = "<group>"; };
+		EA96BE82889B76640C849ACE /* Pods-RNSalesforceChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNSalesforceChat.release.xcconfig"; path = "Target Support Files/Pods-RNSalesforceChat/Pods-RNSalesforceChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,9 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E18CAA324BE02030081F9AA /* ServiceChat.framework in Frameworks */,
-				4E18CAA424BE02030081F9AA /* ServiceCore.framework in Frameworks */,
-				0851B2BFEAAEFFE37807C8DB /* libPods-RNSalesforceChat.a in Frameworks */,
+				313A2A310F3F793724186149 /* libPods-RNSalesforceChat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +59,7 @@
 			children = (
 				4ECA21992497BC0E007CEB03 /* ServiceChat.framework */,
 				4ECA219A2497BC0E007CEB03 /* ServiceCore.framework */,
-				2D8417DE3E7A07243C326B58 /* libPods-RNSalesforceChat.a */,
+				34F14506D762A2B3A30BD806 /* libPods-RNSalesforceChat.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -82,8 +78,8 @@
 		716C08034BF3530E92BD8E42 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F55E609DAA2273211C19EFC6 /* Pods-RNSalesforceChat.debug.xcconfig */,
-				1AE7ADAB46B1A07BDF100E9A /* Pods-RNSalesforceChat.release.xcconfig */,
+				6D431C3E1101B0DD64099815 /* Pods-RNSalesforceChat.debug.xcconfig */,
+				EA96BE82889B76640C849ACE /* Pods-RNSalesforceChat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -95,7 +91,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNSalesforceChat" */;
 			buildPhases = (
-				E174A6F8164F9A1DF28D8600 /* [CP] Check Pods Manifest.lock */,
+				CFC7F89885325A0EE55A59A3 /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
@@ -142,7 +138,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E174A6F8164F9A1DF28D8600 /* [CP] Check Pods Manifest.lock */ = {
+		CFC7F89885325A0EE55A59A3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -279,8 +275,10 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F55E609DAA2273211C19EFC6 /* Pods-RNSalesforceChat.debug.xcconfig */;
+			baseConfigurationReference = 6D431C3E1101B0DD64099815 /* Pods-RNSalesforceChat.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
@@ -290,8 +288,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../node_modules/react-native/**",
-					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				"LIBRARY_SEARCH_PATHS[arch=*]" = "$(inherited)";
@@ -303,8 +299,10 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AE7ADAB46B1A07BDF100E9A /* Pods-RNSalesforceChat.release.xcconfig */;
+			baseConfigurationReference = EA96BE82889B76640C849ACE /* Pods-RNSalesforceChat.release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
@@ -314,8 +312,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../node_modules/react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				"LIBRARY_SEARCH_PATHS[arch=*]" = "$(inherited)";
