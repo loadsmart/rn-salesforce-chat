@@ -1,6 +1,6 @@
 export interface ChatEntity {
   objectType: string;
-  linkToTranscriptField: string | null;
+  linkToTranscriptField?: string;
   showOnCreate: boolean;
-  keysEntityFieldToMap: string[] | null;
+  keysEntityFieldToMap?: string[];
 }

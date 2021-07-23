@@ -1,5 +1,5 @@
 export interface ChatUserData {
   agentLabel: string;
-  value: string | null;
+  value?: string;
   isDisplayedToAgent: boolean;
 }

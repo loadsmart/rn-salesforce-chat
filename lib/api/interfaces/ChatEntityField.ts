@@ -3,5 +3,5 @@ export interface ChatEntityField {
   doCreate: boolean;
   doFind: boolean;
   isExactMatch: boolean;
-  keyChatUserDataToMap: string | null;
+  keyChatUserDataToMap?: string;
 }
