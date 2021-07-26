@@ -94,6 +94,8 @@ else
 fi;
 ```
 
+This build phase **must occur after the link phase and all embed phases**. If you're using CocoaPods, make sure to put this script after the "[CP] Embed Pods Frameworks" phase.
+
 
 ## Usage example
 ```js
