@@ -58,11 +58,16 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(createPreChatData:(NSString *)agentLabel value:(NSString *)value
-                  isDisplayedToAgent:(BOOL)isDisplayedToAgent)
+                  isDisplayedToAgent:(BOOL)isDisplayedToAgent transcriptFields:(NSArray<NSString *> *)transcriptFields)
 {
     SCSPrechatObject* prechatObject = [[SCSPrechatObject alloc] initWithLabel:agentLabel value:value];
     prechatObject.displayToAgent = isDisplayedToAgent;
 
+    if (transcriptFields != nil) {
+        NSMutableArray* receivedTranscriptFields = [transcriptFields mutableCopy];
+        prechatObject.transcriptFields = receivedTranscriptFields;
+    }
+    
     prechatFields[agentLabel] = prechatObject;
 }
 

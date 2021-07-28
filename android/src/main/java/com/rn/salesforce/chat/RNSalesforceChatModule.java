@@ -88,12 +88,20 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 	}
 
 	@ReactMethod
-	public void createPreChatData(String agentLabel, @Nullable String value, Boolean isDisplayedToAgent) {
-		if (value != null) {
-			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, value, isDisplayedToAgent));
-		} else {
-			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, isDisplayedToAgent));
-		}
+	public void createPreChatData(String agentLabel, @Nullable String value, Boolean isDisplayedToAgent, @Nullable ReadableArray transcriptFields) {
+		ArrayList<String> tempTranscriptFields = new ArrayList<>();
+
+        if (transcriptFields != null) {
+            for (Object e : transcriptFields.toArrayList()) tempTranscriptFields.add(e.toString());
+        }
+
+        String[] receivedTranscriptFields = tempTranscriptFields.toArray(new String[0]);
+
+        if (value != null) {
+            chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, value, isDisplayedToAgent, receivedTranscriptFields));
+        } else {
+            chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, isDisplayedToAgent, receivedTranscriptFields));
+        }
 	}
 
 	@ReactMethod
