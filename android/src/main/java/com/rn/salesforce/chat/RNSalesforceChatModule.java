@@ -54,6 +54,8 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 
 	private ChatUIConfiguration chatUiConfiguration;
 
+    private static boolean isSessionInProgress = false;
+
 	public RNSalesforceChatModule(ReactApplicationContext reactContext) {
 		super(reactContext);
 		this.reactContext = reactContext;
@@ -157,6 +159,8 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 		 reactContext.runOnUiQueueThread(new Runnable() {
             @Override
             public void run() {
+                if (isSessionInProgress) return;
+
                 if (chatUiConfiguration == null) {
                     errorCallback.invoke("error - chat not configured");
                     return;
@@ -189,6 +193,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 		switch (chatSessionState) {
 			case Initializing:
 				state = Connecting;
+                isSessionInProgress = false;
 				break;
 			case InQueue:
 				state = Queued;
@@ -201,6 +206,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 				break;
 			default:
 				state = Disconnected;
+                isSessionInProgress = false;
 				break;
 		}
 
