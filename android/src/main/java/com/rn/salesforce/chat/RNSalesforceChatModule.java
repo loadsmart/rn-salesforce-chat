@@ -154,25 +154,32 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 
 	@ReactMethod
 	public void openChat(final Callback errorCallback) {
-		if (chatUiConfiguration == null) {
-			errorCallback.invoke("error - chat not configured");
-			return;
-		}
+		 reactContext.runOnUiQueueThread(new Runnable() {
+            @Override
+            public void run() {
+                if (chatUiConfiguration == null) {
+                    errorCallback.invoke("error - chat not configured");
+                    return;
+                }
 
-		ChatUI.configure(chatUiConfiguration)
-				.createClient(reactContext)
-				.onResult(new Async.ResultHandler<ChatUIClient>() {
-					@Override
-					public void handleResult(Async<?> operation, @NonNull ChatUIClient chatUIClient) {
-						chatUIClient.startChatSession(RNSalesforceChatModule.this.getCurrentActivity());
-						chatUIClient.addSessionStateListener(RNSalesforceChatModule.this);
-					}
-				}).onError(new Async.ErrorHandler() {
-			        @Override
-			        public void handleError(Async<?> async, @NonNull Throwable throwable) {
+                ChatUI.configure(chatUiConfiguration)
+                        .createClient(reactContext)
+                        .onResult(new Async.ResultHandler<ChatUIClient>() {
+                            @Override
+                            public void handleResult(Async<?> operation, @NonNull final ChatUIClient chatUIClient) {
+
+                                chatUIClient.startChatSession(RNSalesforceChatModule.this.getCurrentActivity());
+                                chatUIClient.addSessionStateListener(RNSalesforceChatModule.this);
+                            }
+                        }).onError(new Async.ErrorHandler() {
+
+                    @Override
+                    public void handleError(Async<?> async, @NonNull Throwable throwable) {
                         errorCallback.invoke(String.format("%s %s", "error -", throwable.getLocalizedMessage()));
-			        }
-		        });
+                    }
+                });
+            }
+        });
 	}
 
 	@Override
