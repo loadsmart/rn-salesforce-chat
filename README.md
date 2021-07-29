@@ -108,18 +108,20 @@ export default async function startSalesforceChat() {
   const firstName = 'First Name'
   const lastName = 'Last Name'
 		
-  // creating user data objects:
-  const createUserData = async () => {
-    salesforceApi.createUserData({
+  // creating pre chat data objects:
+  const createPreChatData = async () => {
+    salesforceApi.createPreChatData({
       agentLabel: firstName,
       value: "Some First Name",
       isDisplayedToAgent: true,
+      transcriptFields: ["some transcript field"]
     })
 
-    salesforceApi.createUserData({
+    salesforceApi.createPreChatData({
       agentLabel: lastName,
       value: "Some Last Name",
       isDisplayedToAgent: true,
+      transcriptFields: ["some transcript field"]
     })
   }
 
@@ -132,6 +134,7 @@ export default async function startSalesforceChat() {
       isExactMatch: false,
       keyChatUserDataToMap: firstName,
     })
+
     salesforceApi.createEntityField({
       objectFieldName: lastName,
       doCreate: false,
@@ -230,7 +233,7 @@ eventEmitter.addListener(salesforceChat.ChatSessionEnd, event => {
 
 ## Styling
 
-Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.service_sdk_android.meta/service_sdk_android/android_customization.htm) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm)) to read more about.
+Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_android.meta/service_sdk_android/android_customization.htm#ess_ui_customization) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm#ess_ui_customization)) to read more about it.
 
 ## License
 
