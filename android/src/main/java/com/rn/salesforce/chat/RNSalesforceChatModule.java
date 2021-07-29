@@ -32,29 +32,24 @@ import java.util.Objects;
 
 public class RNSalesforceChatModule extends ReactContextBaseJavaModule implements SessionStateListener {
 
+	private static boolean isSessionInProgress = false;
 	private final String ChatSessionStateChanged = "ChatSessionStateChanged";
 	private final String ChatSessionEnd = "ChatSessionEnd";
-
 	private final String Connecting = "Connecting";
 	private final String Queued = "Queued";
 	private final String Connected = "Connected";
 	private final String Ending = "Ending";
 	private final String Disconnected = "Disconnected";
-
 	private final String EndReasonUser = "EndReasonUser";
 	private final String EndReasonAgent = "EndReasonAgent";
 	private final String EndReasonNoAgentsAvailable = "EndReasonNoAgentsAvailable";
 	private final String EndReasonTimeout = "EndReasonTimeout";
 	private final String EndReasonSessionError = "EndReasonSessionError";
-
 	private final ReactApplicationContext reactContext;
 	private final Map<String, ChatUserData> chatUserDataMap;
 	private final Map<String, ChatEntityField> chatEntityFieldMap;
 	private final List<ChatEntity> chatEntityList;
-
 	private ChatUIConfiguration chatUiConfiguration;
-
-    private static boolean isSessionInProgress = false;
 
 	public RNSalesforceChatModule(ReactApplicationContext reactContext) {
 		super(reactContext);
@@ -91,17 +86,18 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 	public void createPreChatData(String agentLabel, @Nullable String value, Boolean isDisplayedToAgent, @Nullable ReadableArray transcriptFields) {
 		ArrayList<String> tempTranscriptFields = new ArrayList<>();
 
-        if (transcriptFields != null) {
-            for (Object e : transcriptFields.toArrayList()) tempTranscriptFields.add(e.toString());
-        }
+		if (transcriptFields != null) {
+			for (int i = 0; i < transcriptFields.size(); i++)
+				tempTranscriptFields.add(transcriptFields.getString(i));
+		}
 
-        String[] receivedTranscriptFields = tempTranscriptFields.toArray(new String[0]);
+		String[] receivedTranscriptFields = tempTranscriptFields.toArray(new String[0]);
 
-        if (value != null) {
-            chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, value, isDisplayedToAgent, receivedTranscriptFields));
-        } else {
-            chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, isDisplayedToAgent, receivedTranscriptFields));
-        }
+		if (value != null) {
+			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, value, isDisplayedToAgent, receivedTranscriptFields));
+		} else {
+			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, isDisplayedToAgent, receivedTranscriptFields));
+		}
 	}
 
 	@ReactMethod
@@ -125,7 +121,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 					.linkToTranscriptField(linkToTranscriptField)
 					.showOnCreate(showOnCreate)
 					.build(objectType);
-		} else  {
+		} else {
 			entity = new ChatEntity.Builder()
 					.showOnCreate(showOnCreate)
 					.build(objectType);
@@ -164,34 +160,36 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 
 	@ReactMethod
 	public void openChat(final Callback errorCallback) {
-		 reactContext.runOnUiQueueThread(new Runnable() {
-            @Override
-            public void run() {
-                if (isSessionInProgress) return;
+		Runnable startChatRunnable = new Runnable() {
+			@Override
+			public void run() {
+				if (isSessionInProgress) return;
 
-                if (chatUiConfiguration == null) {
-                    errorCallback.invoke("error - chat not configured");
-                    return;
-                }
+				if (chatUiConfiguration == null) {
+					errorCallback.invoke("error - chat not configured");
+					return;
+				}
 
-                ChatUI.configure(chatUiConfiguration)
-                        .createClient(reactContext)
-                        .onResult(new Async.ResultHandler<ChatUIClient>() {
-                            @Override
-                            public void handleResult(Async<?> operation, @NonNull final ChatUIClient chatUIClient) {
+				Async.ResultHandler<? super ChatUIClient> resultHandler = new Async.ResultHandler<ChatUIClient>() {
+					@Override
+					public void handleResult(Async<?> operation, @NonNull final ChatUIClient chatUIClient) {
+						chatUIClient.startChatSession(RNSalesforceChatModule.this.getCurrentActivity());
+						chatUIClient.addSessionStateListener(RNSalesforceChatModule.this);
+					}
+				};
 
-                                chatUIClient.startChatSession(RNSalesforceChatModule.this.getCurrentActivity());
-                                chatUIClient.addSessionStateListener(RNSalesforceChatModule.this);
-                            }
-                        }).onError(new Async.ErrorHandler() {
+				Async.ErrorHandler errorHandler = new Async.ErrorHandler() {
+					@Override
+					public void handleError(Async<?> async, @NonNull Throwable throwable) {
+						errorCallback.invoke(String.format("%s %s", "error -", throwable.getLocalizedMessage()));
+					}
+				};
 
-                    @Override
-                    public void handleError(Async<?> async, @NonNull Throwable throwable) {
-                        errorCallback.invoke(String.format("%s %s", "error -", throwable.getLocalizedMessage()));
-                    }
-                });
-            }
-        });
+				ChatUI.configure(chatUiConfiguration).createClient(reactContext).onResult(resultHandler).onError(errorHandler);
+			}
+		};
+
+		reactContext.runOnUiQueueThread(startChatRunnable);
 	}
 
 	@Override
@@ -201,7 +199,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 		switch (chatSessionState) {
 			case Initializing:
 				state = Connecting;
-                isSessionInProgress = false;
+				isSessionInProgress = false;
 				break;
 			case InQueue:
 				state = Queued;
@@ -214,7 +212,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 				break;
 			default:
 				state = Disconnected;
-                isSessionInProgress = false;
+				isSessionInProgress = false;
 				break;
 		}
 
