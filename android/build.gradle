@@ -24,12 +24,12 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -40,8 +40,7 @@ android {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation "com.salesforce.service:chat-ui:4.1.1"
-    implementation "com.salesforce.service:chat-core:4.1.1"
-    implementation "androidx.legacy:legacy-support-core-ui:1.0.0"
+    implementation "com.salesforce.service:chat-ui:4.2.0"
+    implementation "com.salesforce.service:chat-core:4.2.0"
 }
   

@@ -63,16 +63,42 @@ That's it!
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-    compile project(':rn-salesforce-chat')
+    implementation project(path: ':@loadsmart_rn-salesforce-chat')
   	```
 
-4. Open `android/app/src/main/java/[...]/MainActivity.java`
+4. Open `android/app/src/main/java/[...]/MainApplication.java`
   - Add `import com.rn.salesforce.chat.RNSalesforceChatPackage;` to the imports at the top of the file
   - Add `new RNSalesforceChatPackage()` to the list returned by the `getPackages()` method    
 
+## Prepare App Submission for iOS
+
+Before you can submit your app to the App Store, you need to strip development resources (such as unneeded architectures and header resources) from the dynamic libraries used by the Salesforce Service SDK.
+
+Xcode doesn't automatically strip unneeded architectures from dynamic libraries, nor remove some header and utility resources. Apps that don't do this clean up are rejected from the App Store. For example, you might receive the following error:
+
+```
+ERROR ITMS-90085:
+No architectures in the binary. Lipo failed to detect any architectures in the bundle executable.
+```
+
+You can resolve this problem by using the script provided in the Salesforce ServiceCore framework that automatically strips unneeded architectures from the dynamic libraries and then re-signs them. To use this script:
+
+1. Select Build Phases for your project target.
+2. Create a Run Script phase to run the script.
+3. Copy the script bellow and paste on the script box:
+```sh
+if [ "${CONFIGURATION}" = "Release" ]; then
+    $PODS_ROOT/ServiceSDK/Frameworks/ServiceCore.xcframework/ios-arm64/ServiceCore.framework/prepare-framework
+else
+    $PODS_ROOT/ServiceSDK/Frameworks/ServiceCore.xcframework/ios-x86_64-simulator/ServiceCore.framework/prepare-framework
+fi;
+```
+
+This build phase **must occur after the link phase and all embed phases**. If you're using CocoaPods, make sure to put this script after the "[CP] Embed Pods Frameworks" phase.
+
 
 ## Usage example
-```javascript
+```js
 import { SalesforceChatAPI } from '@loadsmart/rn-salesforce-chat'
 
 export default async function startSalesforceChat() {
@@ -82,18 +108,20 @@ export default async function startSalesforceChat() {
   const firstName = 'First Name'
   const lastName = 'Last Name'
 		
-  // creating user data objects:
-  const createUserData = async () => {
-    salesforceApi.createUserData({
+  // creating pre chat data objects:
+  const createPreChatData = async () => {
+    salesforceApi.createPreChatData({
       agentLabel: firstName,
       value: "Some First Name",
       isDisplayedToAgent: true,
+      transcriptFields: ["some transcript field"]
     })
 
-    salesforceApi.createUserData({
+    salesforceApi.createPreChatData({
       agentLabel: lastName,
       value: "Some Last Name",
       isDisplayedToAgent: true,
+      transcriptFields: ["some transcript field"]
     })
   }
 
@@ -106,6 +134,7 @@ export default async function startSalesforceChat() {
       isExactMatch: false,
       keyChatUserDataToMap: firstName,
     })
+
     salesforceApi.createEntityField({
       objectFieldName: lastName,
       doCreate: false,
@@ -125,7 +154,11 @@ export default async function startSalesforceChat() {
     })
   }
 
-  // configure chat
+  /* configure chat
+    Be extra careful in this step, correctly applying the right configuration. 
+    Wrong configuration can lead to unexpected crashes and the Salesforce SDK 
+    may not provide any warnings or error messages for those. 
+  */
   const configureChat = async () => {
     salesforceApi.configureChat({
       orgId: "ORG_ID",
@@ -144,7 +177,7 @@ export default async function startSalesforceChat() {
     })
   }
  
-  await createPreChatData()
+  await createUserData()
   await createEntityFields()
   await createEntities()
   await configureChat()
@@ -175,7 +208,7 @@ Events for `ChatSessionEnd`
 
 Usage example:
 
-```javascript
+```js
 import { NativeEventEmitter, NativeModules } from 'react-native'
 
 ...
@@ -200,7 +233,7 @@ eventEmitter.addListener(salesforceChat.ChatSessionEnd, event => {
 
 ## Styling
 
-Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.service_sdk_android.meta/service_sdk_android/android_customization.htm) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm)) to read more about.
+Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_android.meta/service_sdk_android/android_customization.htm#ess_ui_customization) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm#ess_ui_customization)) to read more about it.
 
 ## License
 

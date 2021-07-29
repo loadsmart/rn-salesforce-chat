@@ -217,6 +217,7 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
+  - ServiceSDK/Chat (224.0.3)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -247,11 +248,14 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - ServiceSDK/Chat (= 224.0.3)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - boost-for-react-native
+  https://github.com/goinstant/pods-specs-public:
+    - ServiceSDK
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -331,8 +335,9 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
+  ServiceSDK: 2c05094979e8a5244071e6109ab7b8c7bb5427fd
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 0ec6d8fb22292c489cdcc79bfe1c6db40667819c
+PODFILE CHECKSUM: fa025a209da81311838c4df749d1c6804cc1d773
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
