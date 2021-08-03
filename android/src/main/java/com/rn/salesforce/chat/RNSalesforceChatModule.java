@@ -159,14 +159,14 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 	}
 
 	@ReactMethod
-	public void openChat(final Callback errorCallback) {
+	public void openChat(final Callback failureCallback, final Callback successCallback) {
 		Runnable startChatRunnable = new Runnable() {
 			@Override
 			public void run() {
 				if (isSessionInProgress) return;
 
 				if (chatUiConfiguration == null) {
-					errorCallback.invoke("error - chat not configured");
+					failureCallback.invoke("error - chat not configured");
 					return;
 				}
 
@@ -175,13 +175,14 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 					public void handleResult(Async<?> operation, @NonNull final ChatUIClient chatUIClient) {
 						chatUIClient.startChatSession(RNSalesforceChatModule.this.getCurrentActivity());
 						chatUIClient.addSessionStateListener(RNSalesforceChatModule.this);
+						successCallback.invoke();
 					}
 				};
 
 				Async.ErrorHandler errorHandler = new Async.ErrorHandler() {
 					@Override
 					public void handleError(Async<?> async, @NonNull Throwable throwable) {
-						errorCallback.invoke(String.format("%s %s", "error -", throwable.getLocalizedMessage()));
+						failureCallback.invoke(String.format("%s %s", "error -", throwable.getLocalizedMessage()));
 					}
 				};
 

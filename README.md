@@ -13,15 +13,22 @@ On your project root run:
 
 Add the following maven repository to your project's `build.gradle` file:
 
-  ```java
-  allprojects {
-    repositories {
-      maven {
-        url 'https://s3.amazonaws.com/salesforcesos.com/android/maven/release'
-      }
+```java
+allprojects {
+  repositories {
+    maven {
+      url 'https://s3.amazonaws.com/salesforcesos.com/android/maven/release'
     }
   }
-  ```
+}
+```
+
+Add the following pod sources to your project's `Podfile` file:
+
+```js
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/goinstant/pods-specs-public'
+```
 
 Open your ios folder and run:
 
@@ -29,18 +36,14 @@ Open your ios folder and run:
 
 That's it!
 
-
-**Note**: This library does not support **Expo**.
-
 ### Manual installation
-
 
 #### iOS
 
 1. On Xcode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `rn-salesforce-chat` and add `RNSalesforceChat.xcodeproj`
 3. Again in the project navigator, select your project. Add `libRNSalesforceChat.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+4. Run your project (`Cmd+R`)
 
 #### Android
 
@@ -70,6 +73,12 @@ That's it!
   - Add `import com.rn.salesforce.chat.RNSalesforceChatPackage;` to the imports at the top of the file
   - Add `new RNSalesforceChatPackage()` to the list returned by the `getPackages()` method    
 
+<br/>
+
+**Note**: This library does not support **Expo**.
+
+---
+
 ## Prepare App Submission for iOS
 
 Before you can submit your app to the App Store, you need to strip development resources (such as unneeded architectures and header resources) from the dynamic libraries used by the Salesforce Service SDK.
@@ -96,6 +105,7 @@ fi;
 
 This build phase **must occur after the link phase and all embed phases**. If you're using CocoaPods, make sure to put this script after the "[CP] Embed Pods Frameworks" phase.
 
+---
 
 ## Usage example
 ```js
@@ -174,6 +184,10 @@ export default async function startSalesforceChat() {
     salesforceApi.openChat((errorMessage: string) => {
       // error handling
       console.debug('got error', errorMessage)
+    }, 
+    () => {
+      // success handling
+      console.debug('got success')
     })
   }
  
@@ -184,6 +198,7 @@ export default async function startSalesforceChat() {
   await startChat()
 }
 ```
+---
 
 ## Handling events
 
@@ -230,14 +245,19 @@ eventEmitter.addListener(salesforceChat.ChatSessionEnd, event => {
   console.debug('received ChatEndReason event state', event.reason)
 })
 ```
+---
 
 ## Styling
 
 Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_android.meta/service_sdk_android/android_customization.htm#ess_ui_customization) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm#ess_ui_customization)) to read more about it.
 
+---
+
 ## License
 
 [MIT](./LICENSE)
+
+---
 
 ## Contributing
 
