@@ -115,16 +115,17 @@ RCT_EXPORT_METHOD(configureChat:(NSString *)orgId buttonId:(NSString *)buttonId 
     chatConfiguration.prechatEntities = entities;
 }
 
-RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)errorCallback)
+RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)failureCallback successCallback:(RCTResponseSenderBlock)successCallback)
 {
     if (chatConfiguration == nil) {
-        errorCallback(@[@"error - chat not configured"]);
+        failureCallback(@[@"error - chat not configured"]);
         return;
     }
 
     [[SCServiceCloud sharedInstance].chatCore removeDelegate:self];
     [[SCServiceCloud sharedInstance].chatCore addDelegate:self];
     [[SCServiceCloud sharedInstance].chatUI showChatWithConfiguration:chatConfiguration];
+    successCallback(@[[NSNull null]]);
 }
 
 - (NSArray<NSString *> *)supportedEvents

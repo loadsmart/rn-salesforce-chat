@@ -8,5 +8,5 @@ export default class SalesforceChatAPI {
   createEntityField(chatEntityField: ChatEntityField): Promise<void>;
   createEntity(chatEntity: ChatEntity): Promise<void>;
   configureChat(chatConfig: ChatConfig): Promise<void>;
-  openChat(errorCallback: (errorMessage: string) => void): Promise<void>;
+  openChat(failureCallback: (errorMessage: string) => void, successCallback: () => void): Promise<void>;
 }
