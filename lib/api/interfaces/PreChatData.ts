@@ -3,4 +3,5 @@ export interface PreChatData {
   value?: string;
   isDisplayedToAgent: boolean;
   transcriptFields?: string[];
+  preChatDataKey: string;
 }
