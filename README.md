@@ -115,42 +115,49 @@ export default async function startSalesforceChat() {
 
   const salesforceApi = new SalesforceChatAPI()
 
-  const firstName = 'First Name'
-  const lastName = 'Last Name'
+  const PRE_CHAT_FIRST_NAME_KEY = "pre_chat_first_name_key"
+  const PRE_CHAT_LAST_NAME_KEY = "pre_chat_last_name_key"
+
+  const ENTITY_FIELD_FIRST_NAME_KEY = "entity_field_first_name_key"
+  const ENTITY_FIELD_LAST_NAME_KEY = "entity_field_last_name_key"
 		
   // creating pre chat data objects:
   const createPreChatData = async () => {
     salesforceApi.createPreChatData({
-      agentLabel: firstName,
+      agentLabel: "First Name",
       value: "Some First Name",
       isDisplayedToAgent: true,
       transcriptFields: ["some transcript field"]
+      preChatDataKey: PRE_CHAT_FIRST_NAME_KEY
     })
 
     salesforceApi.createPreChatData({
-      agentLabel: lastName,
+      agentLabel: "Last Name",
       value: "Some Last Name",
       isDisplayedToAgent: true,
       transcriptFields: ["some transcript field"]
+      preChatDataKey: PRE_CHAT_LAST_NAME_KEY
     })
   }
 
   // creating entity field objects:
   const createEntityFields = async () => {
     salesforceApi.createEntityField({
-      objectFieldName: firstName,
+      objectFieldName: "First Name",
       doCreate: false,
       doFind: true,
       isExactMatch: false,
-      keyChatUserDataToMap: firstName,
+      preChatDataKeyToMap: PRE_CHAT_FIRST_NAME_KEY,
+      entityFieldKey: ENTITY_FIELD_FIRST_NAME_KEY
     })
 
     salesforceApi.createEntityField({
-      objectFieldName: lastName,
+      objectFieldName: "Last Name",
       doCreate: false,
       doFind: true,
       isExactMatch: false,
-      keyChatUserDataToMap: lastName,
+      preChatDataKeyToMap: PRE_CHAT_LAST_NAME_KEY,
+      entityFieldKey: ENTITY_FIELD_LAST_NAME_KEY
     })
   }
 
@@ -160,7 +167,7 @@ export default async function startSalesforceChat() {
       objectType: 'Contact',
       linkToTranscriptField: 'ContactId',
       showOnCreate: true,
-      keysEntityFieldToMap: [firstName, lastName],
+      entityFieldKeysToMap: [ENTITY_FIELD_FIRST_NAME_KEY, ENTITY_FIELD_LAST_NAME_KEY],
     })
   }
 
