@@ -83,7 +83,7 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 	}
 
 	@ReactMethod
-	public void createPreChatData(String agentLabel, @Nullable String value, Boolean isDisplayedToAgent, @Nullable ReadableArray transcriptFields) {
+	public void createPreChatData(String agentLabel, @Nullable String value, Boolean isDisplayedToAgent, @Nullable ReadableArray transcriptFields, String preChatDataKey) {
 		ArrayList<String> tempTranscriptFields = new ArrayList<>();
 
 		if (transcriptFields != null) {
@@ -94,26 +94,25 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 		String[] receivedTranscriptFields = tempTranscriptFields.toArray(new String[0]);
 
 		if (value != null) {
-			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, value, isDisplayedToAgent, receivedTranscriptFields));
+			chatUserDataMap.put(preChatDataKey, new ChatUserData(agentLabel, value, isDisplayedToAgent, receivedTranscriptFields));
 		} else {
-			chatUserDataMap.put(agentLabel, new ChatUserData(agentLabel, isDisplayedToAgent, receivedTranscriptFields));
+			chatUserDataMap.put(preChatDataKey, new ChatUserData(agentLabel, isDisplayedToAgent, receivedTranscriptFields));
 		}
 	}
 
 	@ReactMethod
-	public void createEntityField(String objectFieldName, Boolean doCreate, Boolean doFind, Boolean isExactMatch, @Nullable String keyChatUserDataToMap) {
-		if (chatUserDataMap.containsKey(keyChatUserDataToMap)) {
-			chatEntityFieldMap.put(objectFieldName, new ChatEntityField.Builder()
+	public void createEntityField(String objectFieldName, Boolean doCreate, Boolean doFind, Boolean isExactMatch, @Nullable String preChatDataKeyToMap, String entityFieldKey) {
+		if (chatUserDataMap.containsKey(preChatDataKeyToMap)) {
+			chatEntityFieldMap.put(entityFieldKey, new ChatEntityField.Builder()
 					.doCreate(doCreate)
 					.doFind(doFind)
 					.isExactMatch(isExactMatch)
-					.build(objectFieldName, Objects.requireNonNull(chatUserDataMap.get(keyChatUserDataToMap)))
-			);
+					.build(objectFieldName, Objects.requireNonNull(chatUserDataMap.get(preChatDataKeyToMap))));
 		}
 	}
 
 	@ReactMethod
-	public void createEntity(String objectType, @Nullable String linkToTranscriptField, Boolean showOnCreate, @Nullable ReadableArray keysEntityFieldToMap) {
+	public void createEntity(String objectType, @Nullable String linkToTranscriptField, Boolean showOnCreate, @Nullable ReadableArray entityFieldKeysToMap) {
 		ChatEntity entity;
 
 		if (linkToTranscriptField != null) {
@@ -127,9 +126,9 @@ public class RNSalesforceChatModule extends ReactContextBaseJavaModule implement
 					.build(objectType);
 		}
 
-		if (keysEntityFieldToMap != null) {
-			for (int i = 0; i < keysEntityFieldToMap.size(); i++) {
-				String key = keysEntityFieldToMap.getString(i);
+		if (entityFieldKeysToMap != null) {
+			for (int i = 0; i < entityFieldKeysToMap.size(); i++) {
+				String key = entityFieldKeysToMap.getString(i);
 				if (chatEntityFieldMap.containsKey(key)) {
 					entity.getChatEntityFields().add(chatEntityFieldMap.get(key));
 				}

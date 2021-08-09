@@ -58,7 +58,8 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(createPreChatData:(NSString *)agentLabel value:(NSString *)value
-                  isDisplayedToAgent:(BOOL)isDisplayedToAgent transcriptFields:(NSArray<NSString *> *)transcriptFields)
+                  isDisplayedToAgent:(BOOL)isDisplayedToAgent transcriptFields:(NSArray<NSString *> *)transcriptFields
+                  preChatDataKey:(NSString *)preChatDataKey)
 {
     SCSPrechatObject* prechatObject = [[SCSPrechatObject alloc] initWithLabel:agentLabel value:value];
     prechatObject.displayToAgent = isDisplayedToAgent;
@@ -67,26 +68,28 @@ RCT_EXPORT_METHOD(createPreChatData:(NSString *)agentLabel value:(NSString *)val
         NSMutableArray* receivedTranscriptFields = [transcriptFields mutableCopy];
         prechatObject.transcriptFields = receivedTranscriptFields;
     }
-    
-    prechatFields[agentLabel] = prechatObject;
+
+    prechatFields[preChatDataKey] = prechatObject;
 }
 
 RCT_EXPORT_METHOD(createEntityField:(NSString *)objectFieldName doCreate:(BOOL)doCreate doFind:(BOOL)doFind
-                  isExactMatch:(BOOL)isExactMatch keyChatUserDataToMap:(NSString *)keyChatUserDataToMap)
+                  isExactMatch:(BOOL)isExactMatch preChatDataKeyToMap:(NSString *)preChatDataKeyToMap
+                  entityFieldKey:(NSString *)entityFieldKey)
 {
-    if (prechatFields[keyChatUserDataToMap] != nil) {
+    if (prechatFields[preChatDataKeyToMap] != nil) {
+
         SCSPrechatEntityField* entityField = [[SCSPrechatEntityField alloc] initWithFieldName:objectFieldName
-                                                                                        label:keyChatUserDataToMap];
+                                                                                        label:prechatFields[preChatDataKeyToMap].label];
         entityField.doFind = doFind;
         entityField.doCreate = doCreate;
         entityField.isExactMatch = isExactMatch;
 
-        prechatEntities[objectFieldName] = entityField;
+        prechatEntities[entityFieldKey] = entityField;
     }
 }
 
 RCT_EXPORT_METHOD(createEntity:(NSString *)objectType linkToTranscriptField:(NSString *)linkToTranscriptField
-                  showOnCreate:(BOOL)showOnCreate keysEntityFieldToLink:(NSArray<NSString *> *)keysEntityFieldToMap)
+                  showOnCreate:(BOOL)showOnCreate entityFieldKeysToMap:(NSArray<NSString *> *)entityFieldKeysToMap)
 {
     SCSPrechatEntity* entity = [[SCSPrechatEntity alloc] initWithEntityName:objectType];
     entity.showOnCreate = showOnCreate;
@@ -95,7 +98,7 @@ RCT_EXPORT_METHOD(createEntity:(NSString *)objectType linkToTranscriptField:(NSS
         entity.saveToTranscript = linkToTranscriptField;
     }
 
-    for (id entityFieldKey in keysEntityFieldToMap) {
+    for (id entityFieldKey in entityFieldKeysToMap) {
         if (prechatEntities[entityFieldKey] != nil) {
             [entity.entityFieldsMaps addObject:prechatEntities[entityFieldKey]];
         }
