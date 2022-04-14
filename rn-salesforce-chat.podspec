@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/RNSalesforceChat.{h,m}"
 
   s.dependency 'React'
-  s.dependency 'ServiceSDK/Chat', '~> 224.0.3'
+  s.dependency 'ServiceSDK/Chat', '~> 234.1.0'
 end
