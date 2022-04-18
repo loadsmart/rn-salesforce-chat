@@ -1,4 +1,3 @@
-
 # rn-salesforce-chat
 
 ## Getting started
@@ -49,29 +48,31 @@ That's it!
 
 1. Add the following maven repository to your project's `build.gradle` file:
 
-    ```java
-    allprojects {
-      repositories {
-        maven {
-          url 'https://s3.amazonaws.com/salesforcesos.com/android/maven/release'
-        }
-      }
-    }
-    ```
+   ```java
+   allprojects {
+     repositories {
+       maven {
+         url 'https://s3.amazonaws.com/salesforcesos.com/android/maven/release'
+       }
+     }
+   }
+   ```
 
 2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':rn-salesforce-chat'
-  	project(':rn-salesforce-chat').projectDir = new File(rootProject.projectDir, '../node_modules/rn-salesforce-chat/android')
-  	```
+   ```
+   include ':rn-salesforce-chat'
+   project(':rn-salesforce-chat').projectDir = new File(rootProject.projectDir, '../node_modules/rn-salesforce-chat/android')
+   ```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-    implementation project(path: ':@loadsmart_rn-salesforce-chat')
-  	```
+
+   ```
+   implementation project(path: ':@loadsmart_rn-salesforce-chat')
+   ```
 
 4. Open `android/app/src/main/java/[...]/MainApplication.java`
-  - Add `import com.rn.salesforce.chat.RNSalesforceChatPackage;` to the imports at the top of the file
-  - Add `new RNSalesforceChatPackage()` to the list returned by the `getPackages()` method    
+
+- Add `import com.rn.salesforce.chat.RNSalesforceChatPackage;` to the imports at the top of the file
+- Add `new RNSalesforceChatPackage()` to the list returned by the `getPackages()` method
 
 <br/>
 
@@ -95,11 +96,12 @@ You can resolve this problem by using the script provided in the Salesforce Serv
 1. Select Build Phases for your project target.
 2. Create a Run Script phase to run the script.
 3. Copy the script bellow and paste on the script box:
+
 ```sh
 if [ "${CONFIGURATION}" = "Release" ]; then
     $PODS_ROOT/ServiceSDK/Frameworks/ServiceCore.xcframework/ios-arm64/ServiceCore.framework/prepare-framework
 else
-    $PODS_ROOT/ServiceSDK/Frameworks/ServiceCore.xcframework/ios-x86_64-simulator/ServiceCore.framework/prepare-framework
+    $PODS_ROOT/ServiceSDK/Frameworks/ServiceCore.xcframework/ios-arm64_x86_64-simulator/ServiceCore.framework/prepare-framework
 fi;
 ```
 
@@ -108,6 +110,7 @@ This build phase **must occur after the link phase and all embed phases**. If yo
 ---
 
 ## Usage example
+
 ```js
 import { SalesforceChatAPI } from '@loadsmart/rn-salesforce-chat'
 
@@ -120,7 +123,7 @@ export default async function startSalesforceChat() {
 
   const ENTITY_FIELD_FIRST_NAME_KEY = "entity_field_first_name_key"
   const ENTITY_FIELD_LAST_NAME_KEY = "entity_field_last_name_key"
-		
+
   // creating pre chat data objects:
   const createPreChatData = async () => {
     salesforceApi.createPreChatData({
@@ -172,9 +175,9 @@ export default async function startSalesforceChat() {
   }
 
   /* configure chat
-    Be extra careful in this step, correctly applying the right configuration. 
-    Wrong configuration can lead to unexpected crashes and the Salesforce SDK 
-    may not provide any warnings or error messages for those. 
+    Be extra careful in this step, correctly applying the right configuration.
+    Wrong configuration can lead to unexpected crashes and the Salesforce SDK
+    may not provide any warnings or error messages for those.
   */
   const configureChat = async () => {
     salesforceApi.configureChat({
@@ -191,13 +194,13 @@ export default async function startSalesforceChat() {
     salesforceApi.openChat((errorMessage: string) => {
       // error handling
       console.debug('got error', errorMessage)
-    }, 
+    },
     () => {
       // success handling
       console.debug('got success')
     })
   }
- 
+
   await createUserData()
   await createEntityFields()
   await createEntities()
@@ -205,6 +208,7 @@ export default async function startSalesforceChat() {
   await startChat()
 }
 ```
+
 ---
 
 ## Handling events
@@ -226,7 +230,6 @@ Events for `ChatSessionEnd`
 - **EndReasonNoAgentsAvailable** - Session was ended as a result of no agents being available.
 - **EndReasonTimeout** - Session was ended due to a network disruption resulting in a timeout.
 - **EndReasonSessionError** - Session was ended as the result of a fatal error.
-
 
 Usage example:
 
@@ -252,6 +255,7 @@ eventEmitter.addListener(salesforceChat.ChatSessionEnd, event => {
   console.debug('received ChatEndReason event state', event.reason)
 })
 ```
+
 ---
 
 ## Styling
