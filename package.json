@@ -44,7 +44,7 @@
   "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "husky": "^4.2.5"
+    "husky": "^4.3.8"
   },
   "repository": {
     "type": "git",
