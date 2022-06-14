@@ -43,7 +43,7 @@
   "nativePackage": true,
   "homepage": "https://github.com/loadsmart/rn-salesforce-chat#readme",
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-class-properties": "^7.17.12",
     "husky": "^4.2.5"
   },
   "repository": {
