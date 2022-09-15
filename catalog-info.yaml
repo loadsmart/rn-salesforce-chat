@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rn-salesforce-chat
+  description: React Native wrapper for Salesforce SDK chat
+  annotations:
+    github.com/project-slug: loadsmart/rn-salesforce-chat
+  tags:
+    - javascript
+spec:
+  type: other
+  lifecycle: production
+  owner: <CODE-OWNER>
