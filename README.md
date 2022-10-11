@@ -260,7 +260,51 @@ eventEmitter.addListener(salesforceChat.ChatSessionEnd, event => {
 
 ## Styling
 
-Chat styling can be made directly in the native modules of your app. You can use these official Salesforce links ([Android](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_android.meta/service_sdk_android/android_customization.htm#ess_ui_customization) - [iOS](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/servicesdk_ui_customization.htm#ess_ui_customization)) to read more about it.
+### Android:
+
+Chat styling for Android can be made directly in the native module of your app. You can use this official Salesforce [guide](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_android.meta/service_sdk_android/android_customize_colors.htm).
+
+### iOS
+
+For iOS, you can use the available method `setupChatColorIOS`, passing the RGBA values along with the desired color token name, like so:
+
+```js
+setupChatColorIOS(redValue, greenValue, blueValue, alphaValue, colorToken);
+```
+
+The available color tokens are:
+
+- **BrandPrimary**: used for primary visual elements such as header colors;
+- **BrandSecondary**: used for action button colors;
+- **BrandSecondaryInverted**: used for actionable labels placed on brand secondary elements, such as action buttons and submit buttons;
+- **ContrastPrimary**: used for the majority of text;
+- **ContrastQuaternary**: the chat background color;
+- **ContrastInverted**: used for areas where high contrast are needed;
+- **NavbarBackground**: the navigation background color;
+- **NavbarInverted**: the navigation bar text/button color.
+
+All of these color tokens are exported as constants:
+
+```js
+import { NativeModules } from 'react-native'
+
+...
+
+const { RNSalesforceChat } = NativeModules
+const { ContrastQuaternary, NavbarInverted, ContrastPrimary } =
+  RNSalesforceChat.getConstants() // and so on
+
+```
+
+Example of usage - setting the chat background color:
+
+```js
+const { ContrastQuaternary } = RNSalesforceChat.getConstants();
+
+salesforceApi.setupChatColorIOS(51, 204, 96, 1, ContrastQuaternary);
+```
+
+To know more about, access the iOS Salesforce chat [guide](https://developer.salesforce.com/docs/atlas.en-us.noversion.service_sdk_ios.meta/service_sdk_ios/customize_colors.htm).
 
 ---
 

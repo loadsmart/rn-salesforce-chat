@@ -8,5 +8,15 @@ export default class SalesforceChatAPI {
   createEntityField(chatEntityField: ChatEntityField): Promise<void>;
   createEntity(chatEntity: ChatEntity): Promise<void>;
   configureChat(chatConfig: ChatConfig): Promise<void>;
-  openChat(failureCallback: (errorMessage: string) => void, successCallback: () => void): Promise<void>;
+  openChat(
+    failureCallback: (errorMessage: string) => void,
+    successCallback: () => void
+  ): Promise<void>;
+  setupChatColorIOS(
+    redValue: number,
+    greenValue: number,
+    blueValue: number,
+    alphaValue: number,
+    colorToken: string
+  ): Promise<void>;
 }

@@ -23,6 +23,17 @@ NSString* EndReasonNoAgentsAvailable = @"EndReasonNoAgentsAvailable";
 NSString* EndReasonTimeout = @"EndReasonTimeout";
 NSString* EndReasonSessionError = @"EndReasonSessionError";
 
+NSString* BrandPrimary = @"BrandPrimary";
+NSString* BrandSecondary = @"BrandSecondary";
+NSString* BrandSecondaryInverted = @"BrandSecondaryInverted";
+NSString* ContrastPrimary = @"ContrastPrimary";
+NSString* ContrastQuaternary = @"ContrastQuaternary";
+NSString* ContrastInverted = @"ContrastInverted";
+NSString* NavbarBackground = @"NavbarBackground";
+NSString* NavbarInverted = @"NavbarInverted";
+
+NSArray *colorTokens;
+
 RCT_EXPORT_MODULE()
 
 +(void) initialize
@@ -30,6 +41,15 @@ RCT_EXPORT_MODULE()
     prechatFields = [[NSMutableDictionary alloc] init];
     prechatEntities = [[NSMutableDictionary alloc] init];
     entities = [[NSMutableArray alloc] init];
+    colorTokens = @[BrandPrimary,
+                    BrandSecondary,
+                    BrandSecondaryInverted,
+                    ContrastPrimary,
+                    ContrastQuaternary,
+                    ContrastInverted,
+                    NavbarBackground,
+                    NavbarInverted
+   ];
 }
 
 #pragma mark - RCTBridgeModule
@@ -53,7 +73,15 @@ RCT_EXPORT_MODULE()
       EndReasonAgent: EndReasonAgent,
       EndReasonNoAgentsAvailable: EndReasonNoAgentsAvailable,
       EndReasonTimeout: EndReasonTimeout,
-      EndReasonSessionError: EndReasonSessionError
+      EndReasonSessionError: EndReasonSessionError,
+      BrandPrimary: BrandPrimary,
+      BrandSecondary: BrandSecondary,
+      BrandSecondaryInverted: BrandSecondaryInverted,
+      ContrastPrimary: ContrastPrimary,
+      ContrastQuaternary: ContrastQuaternary,
+      ContrastInverted: ContrastInverted,
+      NavbarBackground: NavbarBackground,
+      NavbarInverted: NavbarInverted,
   };
 }
 
@@ -134,6 +162,43 @@ RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)failureCallback successCallba
 - (NSArray<NSString *> *)supportedEvents
 {
   return @[ChatSessionEnd, ChatSessionStateChanged];
+}
+
+RCT_EXPORT_METHOD(setupChatColorIOS:(double)redValue greenValue:(double)greenValue blueValue:(double)blueValue alphaValue:(double)alphaValue colorToken:(NSString *)colorToken)
+{
+    SCAppearanceConfiguration *appearance = [SCServiceCloud sharedInstance].appearanceConfiguration;
+    UIColor *color = [UIColor colorWithRed:(float)redValue/255.0f green:(float)greenValue/255.0f blue:(float)blueValue/255.0f alpha:(float) alphaValue];
+    
+    int colorIndex = (int)[colorTokens indexOfObject:colorToken];
+        
+    switch (colorIndex) {
+        case 0:
+            [appearance setColor:color forName:SCSAppearanceColorTokenBrandPrimary];
+           break;
+        case 1:
+            [appearance setColor:color forName:SCSAppearanceColorTokenBrandSecondary];
+           break;
+        case 2:
+            [appearance setColor:color forName:SCSAppearanceColorTokenBrandSecondaryInverted];
+           break;
+        case 3:
+            [appearance setColor:color forName:SCSAppearanceColorTokenContrastPrimary];
+           break;
+        case 4:
+            [appearance setColor:color forName:SCSAppearanceColorTokenContrastQuaternary];
+           break;
+        case 5:
+            [appearance setColor:color forName:SCSAppearanceColorTokenContrastInverted];
+           break;
+        case 6:
+            [appearance setColor:color forName:SCSAppearanceColorTokenNavbarBackground];
+           break;
+        default:
+            [appearance setColor:color forName:SCSAppearanceColorTokenNavbarInverted];
+           break;
+    }
+    
+    [SCServiceCloud sharedInstance].appearanceConfiguration = appearance;
 }
 
 #pragma mark - SCSChatSessionDelegate
