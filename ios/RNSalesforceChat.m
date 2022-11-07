@@ -144,6 +144,7 @@ RCT_EXPORT_METHOD(configureChat:(NSString *)orgId buttonId:(NSString *)buttonId 
     if (visitorName != nil) chatConfiguration.visitorName = visitorName;
     chatConfiguration.prechatFields = [prechatFields allValues];
     chatConfiguration.prechatEntities = entities;
+    chatConfiguration.defaultToMinimized = false;
 }
 
 RCT_EXPORT_METHOD(openChat:(RCTResponseSenderBlock)failureCallback successCallback:(RCTResponseSenderBlock)successCallback)
