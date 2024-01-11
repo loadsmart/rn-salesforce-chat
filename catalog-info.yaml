@@ -10,4 +10,4 @@ metadata:
 spec:
   type: other
   lifecycle: production
-  owner: carrier-mobile-platform
+  owner: roadrunners
