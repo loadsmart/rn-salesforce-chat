@@ -1,5 +1,11 @@
 # rn-salesforce-chat
 
+> [!IMPORTANT]
+> We regret to inform that the rn-salesforce-chat project has been archived. Unfortunately, due to limited bandwidth and other priorities, we no longer have the capacity to maintain or actively develop this project.
+> We’re truly sorry for any inconvenience this may cause. However, if you would like to continue using the project, you're welcome to fork the repository and implement any custom changes or fixes on your own.
+>
+> Thank you for your understanding and support throughout the project's development.
+
 ## Getting started
 
 `$ npm install @loadsmart/rn-salesforce-chat --save` or `$ yarn add @loadsmart/rn-salesforce-chat` if yarn is used.
